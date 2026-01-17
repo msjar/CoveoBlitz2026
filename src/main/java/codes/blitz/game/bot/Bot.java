@@ -32,7 +32,6 @@ public class Bot {
       actions.add(spawnerManager.produceSpore(myTeam.nutrients()));
     }
 
-
     for(Spore s : myTeam.spores()){
       if(s.biomass() > 2){
         NutrientFinder nutrientFinder = new NutrientFinder(gameMessage.world().map().nutrientGrid(), s.position().x(), s.position().y());

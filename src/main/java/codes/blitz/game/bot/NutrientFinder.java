@@ -22,7 +22,7 @@ public class NutrientFinder {
         //simple pathfinding, issues with obstacles TODO pathfinding for NEUTRAL tiles
         for (int i = 0; i < nutrientGrid.length; i++) {
             for (int j = 0; j < nutrientGrid[i].length; j++) {
-                if (nutrientGrid[i][j] > 0 && !Objects.equals(ownershipGrid[i][j], id)) {
+                if (nutrientGrid[i][j] > 0 && !Objects.equals(ownershipGrid[i][j], id) && !Objects.equals(ownershipGrid[i][j], "NEUTRAL")) {
                     int dist = Math.abs(x - i) + Math.abs(y - j);
                     if (dist != 0 && dist < distance) {
                         distance = dist;
@@ -32,7 +32,21 @@ public class NutrientFinder {
                 }
             }
         }
-        if (nearestNutrientTileX == -1 || nearestNutrientTileY == -1)
+        if (nearestNutrientTileX == -1 || nearestNutrientTileY == -1) {
+            for (int i = 0; i < nutrientGrid.length; i++) {
+                for (int j = 0; j < nutrientGrid[i].length; j++) {
+                    if (!Objects.equals(ownershipGrid[i][j], id) && !Objects.equals(ownershipGrid[i][j], "NEUTRAL")) {
+                        int dist = Math.abs(x - i) + Math.abs(y - j);
+                        if (dist != 0 && dist < distance) {
+                            distance = dist;
+                            nearestNutrientTileX = i;
+                            nearestNutrientTileY = j;
+                        }
+                    }
+                }
+            }
+        }
+        if (nearestNutrientTileX == -1 || nearestNutrientTileY == -1) {
             for (int i = 0; i < nutrientGrid.length; i++) {
                 for (int j = 0; j < nutrientGrid[i].length; j++) {
                     if (!Objects.equals(ownershipGrid[i][j], id)) {
@@ -45,6 +59,7 @@ public class NutrientFinder {
                     }
                 }
             }
+        }
         return new Position(nearestNutrientTileX, nearestNutrientTileY);
     }
 }

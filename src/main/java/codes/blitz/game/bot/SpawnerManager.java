@@ -1,8 +1,6 @@
 package codes.blitz.game.bot;
 
-import codes.blitz.game.generated.Action;
-import codes.blitz.game.generated.Spawner;
-import codes.blitz.game.generated.SpawnerProduceSporeAction;
+import codes.blitz.game.generated.*;
 
 import java.util.List;
 
@@ -21,7 +19,14 @@ public class SpawnerManager {
         this.currentSpawners = currentSpawners;
     }
 
+    /*
+    * Produces a spore. Currently, the spore is created from the first spawner.
+    * */
     public Action produceSpore(){
         return new SpawnerProduceSporeAction(currentSpawners.getFirst().id(), INITIAL_SPORE_BIOMASS);
+    }
+
+    public Action createSpawner(Spore spore){
+        return new SporeCreateSpawnerAction(spore.id());
     }
 }

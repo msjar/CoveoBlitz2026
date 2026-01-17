@@ -25,28 +25,28 @@ public class Bot {
     List<Action> actions = new ArrayList<>();
     TeamInfo myTeam = gameMessage.world().teamInfos().get(gameMessage.yourTeamId());
     spawnerManager.setCurrentSpawners(myTeam.spawners());
-    new SporeMoveToAction(
-            myTeam.spores().getFirst().id(),
-            new Position(
-                    random.nextInt(gameMessage.world().map().width()),
-                    random.nextInt(gameMessage.world().map().height())));
-    if(!firstActionDone){
-      actions.add(addSpawner(myTeam.spores().getFirst(), myTeam.nextSpawnerCost()));
+    if(!firstActionDone && myTeam.spores().getFirst().biomass() >= myTeam.nextSpawnerCost()){
+      actions.add(spawnerManager.createSpawner(myTeam.spores().getFirst()));
+      firstActionDone = true;
     }
     if(myTeam.nutrients() >= spawnerManager.INITIAL_SPORE_BIOMASS && !myTeam.spawners().isEmpty()){
+      System.out.println("Spore spawned");
       actions.add(spawnerManager.produceSpore());
     }
 
+    if(!myTeam.spores().isEmpty()){
+      //spore biomass > 2
+      actions.add(new SporeMoveToAction(
+              myTeam.spores().getFirst().id(),
+              new Position(
+                      gameMessage.world().map().width() -1,
+                      gameMessage.world().map().height() - 1)));
+    }
+
+
+    System.out.println(myTeam.spores().getLast().id());
+
     // You can clearly do better than the random actions above. Have fun!!
     return actions;
-  }
-
-  public Action addSpawner(Spore spore, int nextSpawnerCost){
-    if(spore.biomass() >= nextSpawnerCost){
-      System.out.println("Spawner");
-      firstActionDone = true;
-      return new SporeCreateSpawnerAction(spore.id());
-    }
-    return null;
   }
 }

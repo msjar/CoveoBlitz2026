@@ -38,7 +38,7 @@ public class Bot {
       if(s.biomass() > 2){
         NutrientFinder nutrientFinder = new NutrientFinder(gameMessage.world().map().nutrientGrid(), s.position().x(), s.position().y());
 
-        Position position = nutrientFinder.findNearestNutrientTileFromSpore();
+        Position position = nutrientFinder.findNearestNutrientTileFromSpore(gameMessage.world().ownershipGrid(), gameMessage.yourTeamId());
 
         actions.add(new SporeMoveToAction(s.id(), position));
       }

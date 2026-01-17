@@ -30,7 +30,7 @@ public class Bot {
       firstActionDone = true;
     }
     if(myTeam.nutrients() >= spawnerManager.INITIAL_SPORE_BIOMASS && !myTeam.spawners().isEmpty()){
-      actions.add(spawnerManager.produceSpore());
+      actions.add(spawnerManager.produceSpore(myTeam.nutrients()));
     }
 
 

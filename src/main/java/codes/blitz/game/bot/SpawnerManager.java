@@ -22,8 +22,8 @@ public class SpawnerManager {
     /*
     * Produces a spore. Currently, the spore is created from the first spawner.
     * */
-    public Action produceSpore(){
-        return new SpawnerProduceSporeAction(currentSpawners.getFirst().id(), INITIAL_SPORE_BIOMASS);
+    public Action produceSpore(int nutriments){
+        return new SpawnerProduceSporeAction(currentSpawners.getFirst().id(), nutriments);
     }
 
     public Action createSpawner(Spore spore){

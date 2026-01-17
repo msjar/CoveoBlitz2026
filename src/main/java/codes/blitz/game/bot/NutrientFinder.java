@@ -22,6 +22,18 @@ public class NutrientFinder {
         //simple pathfinding, issues with obstacles TODO pathfinding for NEUTRAL tiles
         for (int i = 0; i < nutrientGrid.length; i++) {
             for (int j = 0; j < nutrientGrid[i].length; j++) {
+                if (nutrientGrid[i][j] > 0 && Objects.equals(ownershipGrid[i][j], "")) {
+                    int dist = Math.abs(x - i) + Math.abs(y - j);
+                    if (dist != 0 && dist < distance) {
+                        distance = dist;
+                        nearestNutrientTileX = i;
+                        nearestNutrientTileY = j;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < nutrientGrid.length; i++) {
+            for (int j = 0; j < nutrientGrid[i].length; j++) {
                 if (nutrientGrid[i][j] > 0 && !Objects.equals(ownershipGrid[i][j], id) && !Objects.equals(ownershipGrid[i][j], "NEUTRAL")) {
                     int dist = Math.abs(x - i) + Math.abs(y - j);
                     if (dist != 0 && dist < distance) {

@@ -33,7 +33,18 @@ public class NutrientFinder {
             }
         }
         if (nearestNutrientTileX == -1 || nearestNutrientTileY == -1)
-            throw new RuntimeException("No nutrient tile found");
+            for (int i = 0; i < nutrientGrid.length; i++) {
+                for (int j = 0; j < nutrientGrid[i].length; j++) {
+                    if (!Objects.equals(ownershipGrid[i][j], id)) {
+                        int dist = Math.abs(x - i) + Math.abs(y - j);
+                        if (dist != 0 && dist < distance) {
+                            distance = dist;
+                            nearestNutrientTileX = i;
+                            nearestNutrientTileY = j;
+                        }
+                    }
+                }
+            }
         return new Position(nearestNutrientTileX, nearestNutrientTileY);
     }
 }

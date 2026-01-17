@@ -30,22 +30,20 @@ public class Bot {
       firstActionDone = true;
     }
     if(myTeam.nutrients() >= spawnerManager.INITIAL_SPORE_BIOMASS && !myTeam.spawners().isEmpty()){
-      System.out.println("Spore spawned");
       actions.add(spawnerManager.produceSpore());
     }
 
-    if(!myTeam.spores().isEmpty()){
-      //spore biomass > 2
-      actions.add(new SporeMoveToAction(
-              myTeam.spores().getFirst().id(),
-              new Position(
-                      gameMessage.world().map().width() -1,
-                      gameMessage.world().map().height() - 1)));
+
+    for(Spore s : myTeam.spores()){
+      if(s.biomass() > 2){
+        NutrientFinder nutrientFinder = new NutrientFinder(gameMessage.world().map().nutrientGrid(), s.position().x(), s.position().y());
+
+        Position position = nutrientFinder.findNearestNutrientTileFromSpore();
+
+        actions.add(new SporeMoveToAction(s.id(), position));
+      }
+
     }
-
-
-    System.out.println(myTeam.spores().getLast().id());
-
     // You can clearly do better than the random actions above. Have fun!!
     return actions;
   }
